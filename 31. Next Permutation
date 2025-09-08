@@ -1,0 +1,50 @@
+problem statement:
+A permutation of an array of integers is an arrangement of its members into a sequence or linear order.
+For example, for arr = [1,2,3], the following are all the permutations of arr: [1,2,3], [1,3,2], [2, 1, 3], [2, 3, 1], [3,1,2], [3,2,1].
+The next permutation of an array of integers is the next lexicographically greater permutation of its integer. More formally, if all the permutations of the array are sorted in one container according to their lexicographical order, then the next permutation of that array is the permutation that follows it in the sorted container. If such arrangement is not possible, the array must be rearranged as the lowest possible order (i.e., sorted in ascending order).
+For example, the next permutation of arr = [1,2,3] is [1,3,2].
+Similarly, the next permutation of arr = [2,3,1] is [3,1,2].
+While the next permutation of arr = [3,2,1] is [1,2,3] because [3,2,1] does not have a lexicographical larger rearrangement.
+Given an array of integers nums, find the next permutation of nums.
+The replacement must be in place and use only constant extra memory.
+
+Solution:
+class Solution {
+    public void nextPermutation(int[] nums) {
+        int n = nums.length;
+        int index = -1; //setting the index
+        for (int i = n - 2; i >= 0; i--) {//checking from end side if someone greater than previous one
+            if (nums[i] < nums[i + 1]) {
+                index = i;             //if yes then storing that value in the index
+                break;
+            }
+        }
+        if (index == -1) {    if not such element found that mean you have to just reverse the arr because last permulation is written so be start from first
+            rev(nums,0,n-1);
+            return;
+
+        }
+        for (int i = n - 1; i > index; i--) {  //if index is possible than from end to index we search for element greater than element at index
+            if (nums[i] > nums[index]) {
+                int tem = nums[index];
+                nums[index] = nums[i];    //if yes than just swap it and come out of the loop
+                nums[i] = tem;
+                break;
+            }
+        }
+        rev(nums,index+1,n-1);      //after that you reverse the number from index +1 to end you get the permutation
+        return;
+
+    }
+
+    private static void rev(int[] arr,int start,int end) {
+        while (start < end) {
+            int temp = arr[start];
+            arr[start] = arr[end];
+            arr[end] = temp;
+            start++;
+            end--;
+
+        }
+    }
+}
